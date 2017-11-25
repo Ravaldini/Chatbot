@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.IO;
 
 namespace Chatbot
@@ -23,7 +24,13 @@ namespace Chatbot
             textBox2.Text += "Бот: " + botLast + "\r\n" + "\r\n";
         }
 
+       
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Console.WriteLine("Aha");
+            sendMsg();
+        }
 
 
         public string stateStart()
@@ -57,7 +64,7 @@ namespace Chatbot
             while (!str.EndOfStream)
             {
                 string st = str.ReadLine();
-                if (st.StartsWith(textIn))
+                if (st.StartsWith(textIn, StringComparison.OrdinalIgnoreCase))
                 {
                     textOut = st;
                     break;
@@ -81,19 +88,18 @@ namespace Chatbot
         }
 
 
-        
-        private void button1_Click(object sender, EventArgs e)
+        public void sendMsg()
         {
             string man = "";
             string bot = "";
-            
+
             man = textBox1.Text;
             textBox1.Text = "";
 
             bot = stateFind(man); //Поиск стейта
 
             if (bot == "") //Если стейт не найден
-            {                
+            {
                 bot = stateStart(); //Использует стейт start                
                 stateNew(botLast, man); //Cоздает новый стейт из последней фразы бота и новой фразы
             }
@@ -102,7 +108,11 @@ namespace Chatbot
 
             textBox2.Text += "Вы: " + man + "\r\n";
             textBox2.Text += "Бот: " + bot + "\r\n" + "\r\n";
-            
+            textBox2.SelectionStart = textBox2.Text.Length;
+            textBox2.ScrollToCaret();
         }
-    }
+        
+
+        
+}
 }

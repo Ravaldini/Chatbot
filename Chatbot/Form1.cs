@@ -60,14 +60,38 @@ namespace Chatbot
         {
             StreamReader str = new StreamReader("state.txt", Encoding.UTF8);
             string textOut = "";
+            int counter = 0;
+            int rndStr = 0;
+            Random rnd = new Random();
 
             while (!str.EndOfStream)
             {
                 string st = str.ReadLine();
                 if (st.StartsWith(textIn, StringComparison.OrdinalIgnoreCase))
                 {
-                    textOut = st;
-                    break;
+                    counter ++; //счетчик найденных строк                   
+                }
+            }
+            str.Close();
+                        
+            rndStr = rnd.Next(1, counter+1);
+            Console.WriteLine("counter = " + counter);
+            Console.WriteLine("rndStr = " + rndStr);
+            counter = 0;
+
+            str = new StreamReader("state.txt", Encoding.UTF8);
+            while (!str.EndOfStream)
+            {
+                string st = str.ReadLine();
+                if (st.StartsWith(textIn, StringComparison.OrdinalIgnoreCase))
+                {
+                    counter++; //счетчик найденных строк
+                    if (counter == rndStr)
+                    {
+                        textOut = st;
+                        break;
+                    }
+                    
                 }
             }
             str.Close();

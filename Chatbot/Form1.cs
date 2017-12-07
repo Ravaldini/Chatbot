@@ -124,7 +124,7 @@ namespace Chatbot
 
             if (bot == "") //Если стейт не найден
             {
-                bot = stateStart(); //Использует стейт start                
+                bot = stateFind("привет"); //Использует стейт start                
                 stateNew(botLast, man); //Cоздает новый стейт из последней фразы бота и новой фразы
             }
 
